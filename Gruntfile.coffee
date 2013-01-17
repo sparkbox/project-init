@@ -24,7 +24,7 @@ module.exports = (grunt) ->
       glob_to_multiple:
         files: grunt.file.expandMapping(['specs/*.coffee'], 'specs/compiled/', {
           rename: (destBase, destPath) ->
-            destBase + destPath.replace(/\.coffee$/, '.js');
+            destBase + destPath.replace(/\.coffee$/, '.js').replace(/specs\//, '');
         })
     concat:
       home:
@@ -95,7 +95,7 @@ module.exports = (grunt) ->
     jasmine:
       src: 'dist/**/*.js'
       options:
-        specs: 'specs/compiled/specs/*Spec.js'
+        specs: 'specs/compiled/*Spec.js'
         helpers: 'specs/*Helper.js'
 
   grunt.loadNpmTasks "grunt-contrib-clean"
