@@ -26,13 +26,14 @@ module.exports = (grunt) ->
           rename: (destBase, destPath) ->
             destBase + destPath.replace(/\.coffee$/, '.js').replace(/specs\//, '');
         })
+
     concat:
       home:
-        src: ["templates/_header.html", "templates/_home-page.html", "templates/_footer.html"]
+        src: ["templates/_header.html", "templates/_home-page.html", "templates/_tmp-footer.html"]
         dest: "dist/index.html"
 
       about:
-        src: ["templates/_header.html", "templates/_about-page.html", "templates/_footer.html"]
+        src: ["templates/_header.html", "templates/_about-page.html", "templates/_tmp-footer.html"]
         dest: "dist/about.html"
 
       fourohfour:
@@ -48,8 +49,8 @@ module.exports = (grunt) ->
 
     combine:
       html:
-        input: "dist/index.html"
-        output: "dist/index.html"
+        input: "templates/_footer.html"
+        output: "templates/_tmp-footer.html"
         tokens: [
           token: "%1"
           string: '<%= pkg.name %>'
@@ -96,7 +97,7 @@ module.exports = (grunt) ->
       src: 'dist/**/*.js'
       options:
         specs: 'specs/compiled/*Spec.js'
-        helpers: 'specs/*Helper.js'
+        helpers: 'specs/compiled/*Helper.js'
 
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
@@ -111,6 +112,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-combine"
 
   # Default task.
-  grunt.registerTask "default", ["coffee", "jasmine", "clean", "compass", "concat", "combine"]
-  grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "concat", "combine", "exec:img"]
+  grunt.registerTask "default", ["coffee", "clean", "compass", "combine", "concat", "jasmine"]
+  grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "combine", "concat", "exec:img"]
   grunt.registerTask "docs", ["styleguide', 'exec:docco"]
