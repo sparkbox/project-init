@@ -5,7 +5,7 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
     watch:
-      files: ["sass/*", "coffee/*"]
+      files: ["templates/*", "sass/*", "coffee/*", "specs/*"]
       tasks: "default"
 
       jasmine:
@@ -21,9 +21,9 @@ module.exports = (grunt) ->
       compile:
         files:
           "js/app.js": "coffee/app.coffee"
-      glob_to_multiple: 
+      glob_to_multiple:
         files: grunt.file.expandMapping(['specs/*.coffee'], 'specs/compiled/', {
-          rename: (destBase, destPath) -> 
+          rename: (destBase, destPath) ->
             destBase + destPath.replace(/\.coffee$/, '.js');
         })
     concat:

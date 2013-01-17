@@ -7,4 +7,4 @@ describe "This App", ->
     #do something
 
   it "should find the app files", ->
-    expect( typeof APP ).toEqual( "object" );
+    expect( typeof APP ).toEqual "object"
