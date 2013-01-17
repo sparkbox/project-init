@@ -95,7 +95,7 @@ module.exports = (grunt) ->
     jasmine:
       src: 'dist/**/*.js'
       options:
-        specs: 'specs/compiled/spec/*Spec.js'
+        specs: 'specs/compiled/specs/*Spec.js'
         helpers: 'specs/*Helper.js'
 
   grunt.loadNpmTasks "grunt-contrib-clean"
