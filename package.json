@@ -1,0 +1,18 @@
+{
+  "name": "Project-Name",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4",
+    "grunt-contrib": "~0.3.0",
+    "grunt-contrib-watch": "~0.2.0",
+    "grunt-contrib-sass": "git://github.com/gruntjs/grunt-contrib-sass.git#aa0f821697e3f1a5046ae4ed50e9358967d9bdd7",
+    "grunt-contrib-concat": "~0.1.2",
+    "grunt-contrib-coffee": "git://github.com/gruntjs/grunt-contrib-coffee.git#14d256843bce430f7732f1cb133efbe920e9b91e",
+    "grunt-contrib-jasmine": "~0.3.0",
+    "grunt-modernizr": "~0.1.5",
+    "grunt-notify": "0.1.3",
+    "grunt-styleguide": "~0.2.1",
+    "grunt-targethtml": "~0.1.3",
+    "grunt-exec": "~0.3.0"
+  }
+}
