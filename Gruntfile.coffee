@@ -106,7 +106,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-styleguide"
   grunt.loadNpmTasks "grunt-exec"
   grunt.loadNpmTasks "grunt-combine"
-e
 
   # Default task.
   grunt.registerTask "default", ["jasmine", "clean", "coffee", "compass", "concat", "combine"]
