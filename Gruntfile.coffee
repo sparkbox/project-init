@@ -31,6 +31,10 @@ module.exports = (grunt) ->
         src: ["templates/_header.html", "templates/_about-page.html", "templates/_footer.html"]
         dest: "dist/about.html"
 
+      fourohfour:
+        src: "404.html"
+        dest: "dist/404.html"
+
       js:
         #i.e. src: ['js/libs/mediaCheck.js', 'js/app.js'],
         src: ["js/libs/*", "js/app.js"]
