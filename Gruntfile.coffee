@@ -10,7 +10,7 @@ module.exports = (grunt) ->
 
       jasmine:
         files: ['src/**/*.js', 'specs/**/*.js']
-        tasks: 'jasmine:build'
+        tasks: 'jasmine'
 
     compass:
       dist:
@@ -106,9 +106,9 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-styleguide"
   grunt.loadNpmTasks "grunt-exec"
   grunt.loadNpmTasks "grunt-combine"
-
+e
 
   # Default task.
-  grunt.registerTask "default", ["clean", "coffee", "compass", "concat", "combine", "exec:img"]
+  grunt.registerTask "default", ["jasmine", "clean", "coffee", "compass", "concat", "combine"]
   grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "concat", "combine", "exec:img"]
   grunt.registerTask "docs", ["styleguide', 'exec:docco"]
