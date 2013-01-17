@@ -85,6 +85,8 @@ module.exports = (grunt) ->
     exec:
       docco:
         command: "docco -o docs/js/ js/*.js js/*.coffee"
+      img:
+        command: "cp img/* dist/img/"
 
     jasmine:
       src: 'dist/**/*.js'
@@ -107,6 +109,6 @@ module.exports = (grunt) ->
 
 
   # Default task.
-  grunt.registerTask "default", ["clean", "coffee", "compass", "concat", "combine"]
-  grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "concat", "combine"]
+  grunt.registerTask "default", ["clean", "coffee", "compass", "concat", "combine", "exec:img"]
+  grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "concat", "combine", "exec:img"]
   grunt.registerTask "docs", ["styleguide', 'exec:docco"]
