@@ -2,7 +2,9 @@
 // See _mixins.scss for the @mixin that controls it.
 // This is the master variable that controls the whole shebang.
 $base-font-multiplier: 1;
-
+$breakpoint-no-queries: false;
+$breakpoint-no-query-wrappers: true;
+$nomq: ".lt-ie9 &, .no-mq";
+$hi-res: "@media (-webkit-min-device-pixel-ratio: 1.5, only screen) and (-o-min-device-pixel-ratio: 3/2, only screen) and (min-device-pixel-ratio: 1.5)";
 
 // Font Families
-
