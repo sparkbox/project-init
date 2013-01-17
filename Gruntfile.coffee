@@ -21,7 +21,11 @@ module.exports = (grunt) ->
       compile:
         files:
           "js/app.js": "coffee/app.coffee"
-
+      glob_to_multiple: 
+        files: grunt.file.expandMapping(['specs/*.coffee'], 'specs/compiled/', {
+          rename: (destBase, destPath) -> 
+            destBase + destPath.replace(/\.coffee$/, '.js');
+        })
     concat:
       home:
         src: ["templates/_header.html", "templates/_home-page.html", "templates/_footer.html"]
@@ -91,9 +95,8 @@ module.exports = (grunt) ->
     jasmine:
       src: 'dist/**/*.js'
       options:
-        specs: 'test/spec/*Spec.js'
-        helpers: 'test/spec/*Helper.js'
-
+        specs: 'specs/compiled/spec/*Spec.js'
+        helpers: 'specs/*Helper.js'
 
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
@@ -108,6 +111,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-combine"
 
   # Default task.
-  grunt.registerTask "default", ["jasmine", "clean", "coffee", "compass", "concat", "combine"]
+  grunt.registerTask "default", ["coffee", "jasmine", "clean", "compass", "concat", "combine"]
   grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "concat", "combine", "exec:img"]
   grunt.registerTask "docs", ["styleguide', 'exec:docco"]
