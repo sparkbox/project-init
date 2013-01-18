@@ -80,7 +80,7 @@ module.exports = (grunt) ->
       parseFiles: true
       matchCommunityTests: false
 
-    clean: ["dist"]
+    clean: ["dist", "tmp"]
 
     styleguide:
       dist:
@@ -91,7 +91,9 @@ module.exports = (grunt) ->
       docco:
         command: "docco -o docs/js/ js/*.js js/*.coffee"
       img:
-        command: "cp img/* dist/img/"
+        command: "mkdir dist/img; cp -R img dist/img/"
+      makeTmp:
+        command: "mkdir tmp"
 
     jasmine:
       src: 'dist/**/*.js'
@@ -112,6 +114,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-combine"
 
   # Default task.
-  grunt.registerTask "default", ["coffee", "clean", "compass", "combine", "concat", "jasmine"]
-  grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "combine", "concat", "exec:img"]
+  grunt.registerTask "default", ["coffee", "clean", "compass", "exec:makeTmp", "combine", "concat", "jasmine", "exec:img"]
+  grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "exec:makeTmp", "combine", "concat", "exec:img"]
   grunt.registerTask "docs", ["styleguide', 'exec:docco"]
