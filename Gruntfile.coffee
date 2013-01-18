@@ -29,11 +29,11 @@ module.exports = (grunt) ->
 
     concat:
       home:
-        src: ["templates/_header.html", "templates/_home-page.html", "templates/_tmp-footer.html"]
+        src: ["templates/_header.html", "templates/_home-page.html", "tmp/_footer.html"]
         dest: "dist/index.html"
 
       about:
-        src: ["templates/_header.html", "templates/_about-page.html", "templates/_tmp-footer.html"]
+        src: ["templates/_header.html", "templates/_about-page.html", "tmp/_footer.html"]
         dest: "dist/about.html"
 
       fourohfour:
@@ -50,7 +50,7 @@ module.exports = (grunt) ->
     combine:
       html:
         input: "templates/_footer.html"
-        output: "templates/_tmp-footer.html"
+        output: "tmp/_footer.html"
         tokens: [
           token: "%1"
           string: '<%= pkg.name %>'

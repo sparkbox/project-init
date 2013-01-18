@@ -1,0 +1,19 @@
+/*
+Examples
+
+Breakpoint - Non-media query browsers DO get styles inside media query:
+.hero{
+  color: red;
+  @include breakpoint(14.5em, $no-query:$nomq){
+    color: blue;
+  }
+}
+
+Breakpoint - Non-media query browsers do NOT get styles inside media query:
+.hero{
+  color: red;
+  @include breakpoint(14.5em){
+    color: blue;
+  }
+}
+*/
