@@ -1,0 +1,22 @@
+// This file is meant to contain placeholder styles to be extended into styles.
+// Keep in mind that these can act unexpectedly in media queries, so only use
+// extends on things that won't be changing in media queries.
+
+// EXAMPLE:
+//
+// %button {
+//   // everything that extends %button
+//   // will be defined here.
+//   text-align: center;
+//   padding: 5px 10px;
+// }
+// .confirm-button {
+//   @extend %button;
+//   color: white;
+//   background: green;
+// }
+// .disabled-button {
+//   @extend %button;
+//   color: gray;
+//   background: darkgray;
+// }
