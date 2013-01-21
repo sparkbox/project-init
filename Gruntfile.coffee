@@ -44,15 +44,11 @@ module.exports = (grunt) ->
 
     concat:
       templates:
-        home:
-          src: ["templates/_header.html", "templates/_home-page.html", "templates/_footer.html"]
-          dest: "dist/index.html"
-        about:
-          src: ["templates/_header.html", "templates/_about-page.html", "tmp/_footer.html"]
-          dest: "dist/about.html"
-        fourohfour:
-          src: "404.html"
-          dest: "dist/404.html"
+        files:
+          # destination as key, sources as value
+          "dist/index.html": ["templates/_header.html", "templates/_home-page.html", "templates/_footer.html"]
+          "dist/about.html": ["templates/_header.html", "templates/_about-page.html", "tmp/_footer.html"]
+          "dist/404.html": "templates/404.html"
 
       js:
         #i.e. src: ["js/libs/mediaCheck.js", "js/app.js"],
