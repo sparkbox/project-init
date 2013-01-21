@@ -129,7 +129,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-combine"
 
   # Render templates
-  grunt.registerTask "templates", ["clean", "exec:makeTmp", "combine", "concat", "exec:img"]
+  grunt.registerTask "templates", ["exec:makeTmp", "combine", "concat", "exec:img"]
 
   # Compile and concatenate JS
   grunt.registerTask "javascript", ["coffee", "concat:js"]
