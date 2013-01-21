@@ -3,7 +3,7 @@ module.exports = (grunt) ->
 
   # Project configuration.
   grunt.initConfig
-    pkg: grunt.file.readJSON('package.json')
+    pkg: grunt.file.readJSON("package.json")
     watch:
 
       stylesheets:
@@ -15,15 +15,15 @@ module.exports = (grunt) ->
         tasks: "exec:img"
 
       templates:
-        files: ['templates/*']
+        files: ["templates/*"]
         tasks: "templates"
 
       javascript:
-        files: ['coffee/*', 'js/*']
+        files: ["coffee/*", "js/*"]
         tasks: "javascript"
 
       jsTesting:
-        files: ['src/**/*.js', 'specs/**/*.js']
+        files: ["src/**/*.js", "specs/**/*.js"]
         tasks: "jasmine"
 
     compass:
@@ -36,9 +36,9 @@ module.exports = (grunt) ->
         files:
           "js/app.js": "coffee/app.coffee"
       glob_to_multiple:
-        files: grunt.file.expandMapping(['specs/*.coffee'], 'specs/compiled/', {
+        files: grunt.file.expandMapping(["specs/*.coffee"], "specs/compiled/", {
           rename: (destBase, destPath) ->
-            destBase + destPath.replace(/\.coffee$/, '.js').replace(/specs\//, '');
+            destBase + destPath.replace(/\.coffee$/, ".js").replace(/specs\//, "");
         })
 
     concat:
@@ -55,7 +55,7 @@ module.exports = (grunt) ->
         dest: "dist/404.html"
 
       js:
-        #i.e. src: ['js/libs/mediaCheck.js', 'js/app.js'],
+        #i.e. src: ["js/libs/mediaCheck.js", "js/app.js"],
         src: ["js/libs/*", "js/app.js"]
 
         #change this to a site specific name i.e. uwg.js or dty.js
@@ -67,7 +67,7 @@ module.exports = (grunt) ->
         output: "tmp/_footer.html"
         tokens: [
           token: "%1"
-          string: '<%= pkg.name %>'
+          string: "<%= pkg.name %>"
         ]
 
     modernizr:
@@ -110,10 +110,10 @@ module.exports = (grunt) ->
         command: "mkdir tmp"
 
     jasmine:
-      src: 'dist/**/*.js'
+      src: "dist/**/*.js"
       options:
-        specs: 'specs/compiled/*Spec.js'
-        helpers: 'specs/compiled/*Helper.js'
+        specs: "specs/compiled/*Spec.js"
+        helpers: "specs/compiled/*Helper.js"
 
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
@@ -131,5 +131,5 @@ module.exports = (grunt) ->
   grunt.registerTask "templates", ["clean", "exec:makeTmp", "combine", "concat", "exec:img"]
   grunt.registerTask "javascript", ["coffee", "concat:js"]
   grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "exec:makeTmp", "combine", "concat", "exec:img"]
-  grunt.registerTask "docs", ["styleguide', 'exec:docco"]
+  grunt.registerTask "docs", ["styleguide", "exec:docco"]
   grunt.registerTask "default", ["coffee", "clean", "compass", "templates", "jasmine", "exec:img"]
