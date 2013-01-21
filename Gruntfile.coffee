@@ -5,12 +5,26 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
     watch:
-      files: ["templates/*", "sass/*", "coffee/*", "specs/*"]
-      tasks: "default"
 
-      jasmine:
+      stylesheets:
+        files: "sass/*"
+        tasks: "compass"
+
+      images:
+        files: "img/*"
+        tasks: "exec:img"
+
+      templates:
+        files: ['templates/*']
+        tasks: "templates"
+
+      javascript:
+        files: ['coffee/*', 'js/*']
+        tasks: "javascript"
+
+      jsTesting:
         files: ['src/**/*.js', 'specs/**/*.js']
-        tasks: 'jasmine'
+        tasks: "jasmine"
 
     compass:
       dist:
@@ -114,6 +128,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-combine"
 
   # Default task.
-  grunt.registerTask "default", ["coffee", "clean", "compass", "exec:makeTmp", "combine", "concat", "jasmine", "exec:img"]
+  grunt.registerTask "templates", ["clean", "exec:makeTmp", "combine", "concat", "exec:img"]
+  grunt.registerTask "javascript", ["coffee", "concat:js"]
   grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "exec:makeTmp", "combine", "concat", "exec:img"]
   grunt.registerTask "docs", ["styleguide', 'exec:docco"]
+  grunt.registerTask "default", ["coffee", "clean", "compass", "templates", "jasmine", "exec:img"]
