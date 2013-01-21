@@ -43,22 +43,20 @@ module.exports = (grunt) ->
         })
 
     concat:
-      home:
-        src: ["templates/_header.html", "templates/_home-page.html", "tmp/_footer.html"]
-        dest: "dist/index.html"
-
-      about:
-        src: ["templates/_header.html", "templates/_about-page.html", "tmp/_footer.html"]
-        dest: "dist/about.html"
-
-      fourohfour:
-        src: "404.html"
-        dest: "dist/404.html"
+      templates:
+        home:
+          src: ["templates/_header.html", "templates/_home-page.html", "templates/_footer.html"]
+          dest: "dist/index.html"
+        about:
+          src: ["templates/_header.html", "templates/_about-page.html", "tmp/_footer.html"]
+          dest: "dist/about.html"
+        fourohfour:
+          src: "404.html"
+          dest: "dist/404.html"
 
       js:
         #i.e. src: ["js/libs/mediaCheck.js", "js/app.js"],
         src: ["js/libs/*", "js/app.js"]
-
         #change this to a site specific name i.e. uwg.js or dty.js
         dest: "dist/js/<%= pkg.name %>.js"
 
@@ -133,7 +131,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-combine"
 
   # Render templates
-  grunt.registerTask "templates", ["exec:makeTmp", "combine", "concat", "exec:img"]
+  grunt.registerTask "templates", ["clean:templates", "exec:makeTmp", "combine", "concat"]
 
   # Compile and concatenate JS
   grunt.registerTask "javascript", ["coffee", "concat:js"]
