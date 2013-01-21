@@ -106,9 +106,9 @@ module.exports = (grunt) ->
       docco:
         command: "docco -o docs/js/ js/*.js js/*.coffee"
       img:
-        command: "mkdir dist/img; cp -R img/ dist/img/"
+        command: "mkdir -p dist/img; cp -R img/ dist/img/"
       makeTmp:
-        command: "mkdir tmp"
+        command: "mkdir -p tmp"
 
     jasmine:
       src: "dist/**/*.js"
