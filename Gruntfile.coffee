@@ -95,7 +95,11 @@ module.exports = (grunt) ->
       parseFiles: true
       matchCommunityTests: false
 
-    clean: ["dist", "tmp"]
+    clean:
+      all: "dist/*"
+      templates: "dist/*.html"
+      styles: "dist/css/*"
+      javascript: "dist/js/*"
 
     styleguide:
       dist:
