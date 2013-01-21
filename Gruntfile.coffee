@@ -8,7 +8,7 @@ module.exports = (grunt) ->
     watch:
 
       stylesheets:
-        files: "sass/*"
+        files: "scss/*"
         tasks: "compass"
 
       images:
@@ -30,7 +30,7 @@ module.exports = (grunt) ->
     compass:
       dist:
         files:
-          "dist/css/base.css": "sass/base.scss"
+          "dist/css/base.css": "scss/base.scss"
 
     coffee:
       compile:
@@ -92,7 +92,7 @@ module.exports = (grunt) ->
     styleguide:
       dist:
         files:
-          "docs/scss": "sass/*.scss"
+          "docs/scss": "scss/*.scss"
 
     exec:
       docco:
