@@ -12,7 +12,7 @@ module.exports = (grunt) ->
         tasks: "compass"
 
       images:
-        files: "img/*"
+        files: "images/*"
         tasks: "images"
 
       templates:
@@ -87,7 +87,7 @@ module.exports = (grunt) ->
       templates: "dist/*.html"
       stylesheets: "dist/css/*"
       javascript: "dist/js/*"
-      images: "dist/img/*"
+      images: "dist/images/*"
 
     styleguide:
       dist:
@@ -98,7 +98,7 @@ module.exports = (grunt) ->
       docco:
         command: "docco -o docs/js/ js/*.js js/*.coffee"
       copyImages:
-        command: "mkdir -p dist/img; cp -R img/ dist/img/"
+        command: "mkdir -p dist/images; cp -R images/ dist/images/"
 
     jasmine:
       src: "dist/**/*.js"
@@ -136,4 +136,4 @@ module.exports = (grunt) ->
   grunt.registerTask "prod", [ "modernizr", "default" ]
 
   # Default task
-  grunt.registerTask "default", [ "templates", "javascript", "stylesheets" ]
+  grunt.registerTask "default", [ "templates", "javascript", "stylesheets", "images" ]
