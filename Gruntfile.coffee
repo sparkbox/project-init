@@ -136,4 +136,4 @@ module.exports = (grunt) ->
   grunt.registerTask "prod", [ "modernizr", "default" ]
 
   # Default task
-  grunt.registerTask "default", [ "templates", "javascript", "stylesheets" ]
+  grunt.registerTask "default", [ "templates", "javascript", "stylesheets", "images" ]
