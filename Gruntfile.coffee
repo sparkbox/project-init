@@ -4,6 +4,7 @@ module.exports = (grunt) ->
   # Project configuration.
   grunt.initConfig
     pkg: grunt.file.readJSON("package.json")
+
     watch:
 
       stylesheets:
@@ -15,7 +16,7 @@ module.exports = (grunt) ->
         tasks: "exec:img"
 
       templates:
-        files: ["templates/*"]
+        files: "templates/*"
         tasks: "templates"
 
       javascript:
