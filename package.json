@@ -11,7 +11,6 @@
     "grunt-styleguide": "~0.2.1",
     "grunt-exec": "git://github.com/jharding/grunt-exec.git#5ee9bb2c5d16d70d2178c12f05eb271a8c182b30",
     "grunt-contrib-compass": "~0.1.0",
-    "grunt-combine": "~0.7.2",
     "grunt-contrib-coffee": "git://github.com/gruntjs/grunt-contrib-coffee.git",
     "grunt-contrib-clean": "~0.4.0rc5"
   }

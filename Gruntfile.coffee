@@ -13,7 +13,7 @@ module.exports = (grunt) ->
 
       images:
         files: "img/*"
-        tasks: "exec:img"
+        tasks: "images"
 
       templates:
         files: "templates/*"
@@ -44,10 +44,12 @@ module.exports = (grunt) ->
 
     concat:
       templates:
+        options:
+          process: true
         files:
           # destination as key, sources as value
           "dist/index.html": ["templates/_header.html", "templates/_home-page.html", "templates/_footer.html"]
-          "dist/about.html": ["templates/_header.html", "templates/_about-page.html", "tmp/_footer.html"]
+          "dist/about.html": ["templates/_header.html", "templates/_about-page.html", "templates/_footer.html"]
           "dist/404.html": "templates/404.html"
 
       js:
@@ -55,15 +57,6 @@ module.exports = (grunt) ->
         src: ["js/libs/*", "js/app.js"]
         #change this to a site specific name i.e. uwg.js or dty.js
         dest: "dist/js/<%= pkg.name %>.js"
-
-    combine:
-      html:
-        input: "templates/_footer.html"
-        output: "tmp/_footer.html"
-        tokens: [
-          token: "%1"
-          string: "<%= pkg.name %>"
-        ]
 
     modernizr:
       devFile: "js/libs/modernizr-dev.js"
@@ -92,8 +85,9 @@ module.exports = (grunt) ->
     clean:
       all: "dist/*"
       templates: "dist/*.html"
-      styles: "dist/css/*"
+      stylesheets: "dist/css/*"
       javascript: "dist/js/*"
+      images: "dist/img/*"
 
     styleguide:
       dist:
@@ -103,10 +97,8 @@ module.exports = (grunt) ->
     exec:
       docco:
         command: "docco -o docs/js/ js/*.js js/*.coffee"
-      img:
+      copyImages:
         command: "mkdir -p dist/img; cp -R img/ dist/img/"
-      makeTmp:
-        command: "mkdir -p tmp"
 
     jasmine:
       src: "dist/**/*.js"
@@ -124,19 +116,24 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-notify"
   grunt.loadNpmTasks "grunt-styleguide"
   grunt.loadNpmTasks "grunt-exec"
-  grunt.loadNpmTasks "grunt-combine"
 
-  # Render templates
-  grunt.registerTask "templates", ["clean:templates", "exec:makeTmp", "combine", "concat"]
+  # Clean and concatenate templates
+  grunt.registerTask "templates", [ "clean:templates", "concat:templates" ]
 
-  # Compile and concatenate JS
-  grunt.registerTask "javascript", ["coffee", "concat:js"]
+  # Clean, compile and concatenate JS
+  grunt.registerTask "javascript", [ "clean:javascript", "coffee", "concat:js", "jasmine" ]
+
+  # Clean and compile stylesheets
+  grunt.registerTask "stylesheets", ["clean:stylesheets", "compass"]
+
+  # Clean and copy images
+  grunt.registerTask "images", [ "clean:images", "exec:copyImages" ]
 
   # Generate documentation
-  grunt.registerTask "docs", ["styleguide", "exec:docco"]
+  grunt.registerTask "docs", [ "styleguide", "exec:docco" ]
 
   # Production task
-  grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "exec:makeTmp", "combine", "concat", "exec:img"]
+  grunt.registerTask "prod", [ "modernizr", "default" ]
 
   # Default task
-  grunt.registerTask "default", ["coffee", "clean", "compass", "templates", "jasmine", "exec:img"]
+  grunt.registerTask "default", [ "templates", "javascript", "stylesheets" ]
