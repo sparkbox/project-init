@@ -3,72 +3,60 @@ module.exports = (grunt) ->
 
   # Project configuration.
   grunt.initConfig
-    pkg: grunt.file.readJSON('package.json')
+    pkg: grunt.file.readJSON("package.json")
+
     watch:
 
       stylesheets:
-        files: "sass/*"
+        files: "scss/*"
         tasks: "compass"
 
       images:
-        files: "img/*"
-        tasks: "exec:img"
+        files: "images/*"
+        tasks: "images"
 
       templates:
-        files: ['templates/*']
+        files: "templates/*"
         tasks: "templates"
 
       javascript:
-        files: ['coffee/*', 'js/*']
+        files: ["coffee/*", "js/*"]
         tasks: "javascript"
 
       jsTesting:
-        files: ['src/**/*.js', 'specs/**/*.js']
+        files: ["src/**/*.js", "specs/**/*.js"]
         tasks: "jasmine"
 
     compass:
       dist:
         files:
-          "dist/css/base.css": "sass/base.scss"
+          "dist/css/base.css": "scss/base.scss"
 
     coffee:
       compile:
         files:
           "js/app.js": "coffee/app.coffee"
       glob_to_multiple:
-        files: grunt.file.expandMapping(['specs/*.coffee'], 'specs/compiled/', {
+        files: grunt.file.expandMapping(["specs/*.coffee"], "specs/compiled/", {
           rename: (destBase, destPath) ->
-            destBase + destPath.replace(/\.coffee$/, '.js').replace(/specs\//, '');
+            destBase + destPath.replace(/\.coffee$/, ".js").replace(/specs\//, "");
         })
 
     concat:
-      home:
-        src: ["templates/_header.html", "templates/_home-page.html", "tmp/_footer.html"]
-        dest: "dist/index.html"
-
-      about:
-        src: ["templates/_header.html", "templates/_about-page.html", "tmp/_footer.html"]
-        dest: "dist/about.html"
-
-      fourohfour:
-        src: "404.html"
-        dest: "dist/404.html"
+      templates:
+        options:
+          process: true
+        files:
+          # destination as key, sources as value
+          "dist/index.html": ["templates/_header.html", "templates/_home-page.html", "templates/_footer.html"]
+          "dist/about.html": ["templates/_header.html", "templates/_about-page.html", "templates/_footer.html"]
+          "dist/404.html": "templates/404.html"
 
       js:
-        #i.e. src: ['js/libs/mediaCheck.js', 'js/app.js'],
+        #i.e. src: ["js/libs/mediaCheck.js", "js/app.js"],
         src: ["js/libs/*", "js/app.js"]
-
         #change this to a site specific name i.e. uwg.js or dty.js
         dest: "dist/js/<%= pkg.name %>.js"
-
-    combine:
-      html:
-        input: "templates/_footer.html"
-        output: "tmp/_footer.html"
-        tokens: [
-          token: "%1"
-          string: '<%= pkg.name %>'
-        ]
 
     modernizr:
       devFile: "js/libs/modernizr-dev.js"
@@ -94,26 +82,29 @@ module.exports = (grunt) ->
       parseFiles: true
       matchCommunityTests: false
 
-    clean: ["dist", "tmp"]
+    clean:
+      all: "dist/*"
+      templates: "dist/*.html"
+      stylesheets: "dist/css/*"
+      javascript: "dist/js/*"
+      images: "dist/images/*"
 
     styleguide:
       dist:
         files:
-          "docs/scss": "sass/*.scss"
+          "docs/scss": "scss/*.scss"
 
     exec:
       docco:
         command: "docco -o docs/js/ js/*.js js/*.coffee"
-      img:
-        command: "mkdir dist/img; cp -R img/ dist/img/"
-      makeTmp:
-        command: "mkdir tmp"
+      copyImages:
+        command: "mkdir -p dist/images; cp -R images/ dist/images/"
 
     jasmine:
-      src: 'dist/**/*.js'
+      src: "dist/**/*.js"
       options:
-        specs: 'specs/compiled/*Spec.js'
-        helpers: 'specs/compiled/*Helper.js'
+        specs: "specs/compiled/*Spec.js"
+        helpers: "specs/compiled/*Helper.js"
 
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
@@ -125,11 +116,24 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-notify"
   grunt.loadNpmTasks "grunt-styleguide"
   grunt.loadNpmTasks "grunt-exec"
-  grunt.loadNpmTasks "grunt-combine"
 
-  # Default task.
-  grunt.registerTask "templates", ["clean", "exec:makeTmp", "combine", "concat", "exec:img"]
-  grunt.registerTask "javascript", ["coffee", "concat:js"]
-  grunt.registerTask "prod", ["clean", "modernizr", "coffee", "compass", "exec:makeTmp", "combine", "concat", "exec:img"]
-  grunt.registerTask "docs", ["styleguide', 'exec:docco"]
-  grunt.registerTask "default", ["coffee", "clean", "compass", "templates", "jasmine", "exec:img"]
+  # Clean and concatenate templates
+  grunt.registerTask "templates", [ "clean:templates", "concat:templates" ]
+
+  # Clean, compile and concatenate JS
+  grunt.registerTask "javascript", [ "clean:javascript", "coffee", "concat:js", "jasmine" ]
+
+  # Clean and compile stylesheets
+  grunt.registerTask "stylesheets", ["clean:stylesheets", "compass"]
+
+  # Clean and copy images
+  grunt.registerTask "images", [ "clean:images", "exec:copyImages" ]
+
+  # Generate documentation
+  grunt.registerTask "docs", [ "styleguide", "exec:docco" ]
+
+  # Production task
+  grunt.registerTask "prod", [ "modernizr", "default" ]
+
+  # Default task
+  grunt.registerTask "default", [ "templates", "javascript", "stylesheets", "images" ]
