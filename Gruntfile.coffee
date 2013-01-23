@@ -37,7 +37,7 @@ module.exports = (grunt) ->
         files:
           "js/app.js": "coffee/app.coffee"
       glob_to_multiple:
-        files: grunt.file.expandMapping(["specs/*.coffee"], "specs/compiled/", {
+        files: grunt.file.expandMapping(["specs/*.coffee"], "specs/js/", {
           rename: (destBase, destPath) ->
             destBase + destPath.replace(/\.coffee$/, ".js").replace(/specs\//, "");
         })
@@ -103,8 +103,9 @@ module.exports = (grunt) ->
     jasmine:
       src: "dist/**/*.js"
       options:
-        specs: "specs/compiled/*Spec.js"
-        helpers: "specs/compiled/*Helper.js"
+        specs: "specs/js/*Spec.js"
+        helpers: "specs/js/*Helper.js"
+        vendor: ["js/libs/jquery-1.9.0.min.js", "specs/lib/*.js"]
 
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
