@@ -4,3 +4,6 @@ tmp/*
 .DS_Store
 .sass-cache
 npm-debug.log
+*.esproj
+*.sublime-*
+*.out

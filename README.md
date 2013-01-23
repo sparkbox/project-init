@@ -20,3 +20,10 @@ To get started:
 7. ![Science](https://gimmebar-assets.s3.amazonaws.com/4fafbdce48c48.jpg)
 
 **Your project will compile to ```dist/```**
+
+## To-Do
+* Add minify
+* Source maps for minify
+* Add concat only on dist
+* Add livereload
+* Add bash script for easy install
