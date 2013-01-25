@@ -20,7 +20,7 @@ module.exports = (grunt) ->
         tasks: "templates"
 
       javascript:
-        files: ["coffee/*", "js/*"]
+        files: ["coffee/*", "js/**/*.js"]
         tasks: "javascript"
 
       jsTesting:
