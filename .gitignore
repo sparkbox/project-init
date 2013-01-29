@@ -7,3 +7,5 @@ npm-debug.log
 *.esproj
 *.sublime-*
 *.out
+.grunt/*
+_SpecRunner.html
