@@ -28,7 +28,7 @@ module.exports = (grunt) ->
         tasks: "jasmine"
 
       rootDirectory:
-        files: "root-directory"
+        files: "root-directory/*"
         tasks: "default"
 
     compass:
@@ -87,7 +87,9 @@ module.exports = (grunt) ->
       matchCommunityTests: false
 
     clean:
-      all: [ "dist/*", "dist/.*" ]
+      all:
+        src: "dist/*"
+        dot: true # clean hidden files as well
       partials: "dist/*.html"
       stylesheets: "dist/css/*"
       javascript: "dist/js/*"
