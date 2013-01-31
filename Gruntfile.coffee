@@ -27,6 +27,10 @@ module.exports = (grunt) ->
         files: ["src/**/*.js", "specs/**/*.js"]
         tasks: "jasmine"
 
+      rootDirectory:
+        files: "root-directory"
+        tasks: "default"
+
     compass:
       dist:
         files:
@@ -83,7 +87,7 @@ module.exports = (grunt) ->
       matchCommunityTests: false
 
     clean:
-      all: "dist/*"
+      all: [ "dist/*", "dist/.*" ]
       partials: "dist/*.html"
       stylesheets: "dist/css/*"
       javascript: "dist/js/*"
@@ -99,6 +103,8 @@ module.exports = (grunt) ->
         command: "docco -o docs/js/ js/*.js js/*.coffee"
       copyImages:
         command: "mkdir -p dist/images; cp -R images/ dist/images/"
+      copyRootDirectory:
+        command: "cp -Rp root-directory/ dist/"
 
     jasmine:
       src: "dist/**/*.js"
@@ -130,6 +136,10 @@ module.exports = (grunt) ->
   # Clean and copy images
   grunt.registerTask "images", [ "clean:images", "exec:copyImages" ]
 
+  # Clean dist/ and copy root-directory/
+  # NOTE: this has to wipe out everything
+  grunt.registerTask "root-canal", [ "clean:all", "exec:copyRootDirectory" ]
+
   # Generate documentation
   grunt.registerTask "docs", [ "styleguide", "exec:docco" ]
 
@@ -137,4 +147,4 @@ module.exports = (grunt) ->
   grunt.registerTask "prod", [ "modernizr", "default" ]
 
   # Default task
-  grunt.registerTask "default", [ "partials", "javascript", "stylesheets", "images" ]
+  grunt.registerTask "default", [ "root-canal", "partials", "javascript", "stylesheets", "images" ]
