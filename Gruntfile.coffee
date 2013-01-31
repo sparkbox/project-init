@@ -28,7 +28,7 @@ module.exports = (grunt) ->
         tasks: "jasmine"
 
       rootDirectory:
-        files: "root-directory/*"
+        files: [ "root-directory/**/*", "root-directory/.*" ]
         tasks: "default"
 
     compass:
