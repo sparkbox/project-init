@@ -15,9 +15,9 @@ module.exports = (grunt) ->
         files: "images/*"
         tasks: "images"
 
-      templates:
-        files: "templates/*"
-        tasks: "templates"
+      partials:
+        files: "partials/*"
+        tasks: "partials"
 
       javascript:
         files: ["coffee/*", "js/**/*.js"]
@@ -43,14 +43,14 @@ module.exports = (grunt) ->
         })
 
     concat:
-      templates:
+      partials:
         options:
           process: true
         files:
           # destination as key, sources as value
-          "dist/index.html": ["templates/_header.html", "templates/_home-page.html", "templates/_footer.html"]
-          "dist/about.html": ["templates/_header.html", "templates/_about-page.html", "templates/_footer.html"]
-          "dist/404.html": "templates/404.html"
+          "dist/index.html": ["partials/_header.html", "partials/_home-page.html", "partials/_footer.html"]
+          "dist/about.html": ["partials/_header.html", "partials/_about-page.html", "partials/_footer.html"]
+          "dist/404.html": "partials/404.html"
 
       js:
         #i.e. src: ["js/libs/mediaCheck.js", "js/app.js"],
@@ -84,7 +84,7 @@ module.exports = (grunt) ->
 
     clean:
       all: "dist/*"
-      templates: "dist/*.html"
+      partials: "dist/*.html"
       stylesheets: "dist/css/*"
       javascript: "dist/js/*"
       images: "dist/images/*"
@@ -118,8 +118,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-styleguide"
   grunt.loadNpmTasks "grunt-exec"
 
-  # Clean and concatenate templates
-  grunt.registerTask "templates", [ "clean:templates", "concat:templates" ]
+  # Clean and concatenate partials
+  grunt.registerTask "partials", [ "clean:partials", "concat:partials" ]
 
   # Clean, compile and concatenate JS
   grunt.registerTask "javascript", [ "clean:javascript", "coffee", "concat:js", "jasmine" ]
@@ -137,4 +137,4 @@ module.exports = (grunt) ->
   grunt.registerTask "prod", [ "modernizr", "default" ]
 
   # Default task
-  grunt.registerTask "default", [ "templates", "javascript", "stylesheets", "images" ]
+  grunt.registerTask "default", [ "partials", "javascript", "stylesheets", "images" ]
