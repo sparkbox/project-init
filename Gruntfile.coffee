@@ -65,8 +65,8 @@ module.exports = (grunt) ->
         dest: "dist/js/<%= pkg.name %>.js"
 
     modernizr:
-      devFile: "js/no-concat/modernizr-dev.js"
-      outputFile: "dist/js/libs/modernizr.js"
+      devFile: "js/no-concat/modernizr.js"
+      outputFile: "dist/js/modernizr.js"
       extra:
         shiv: true
         printshiv: false
@@ -133,7 +133,7 @@ module.exports = (grunt) ->
 
   # Clean, compile and concatenate JS
   grunt.registerTask "javascript:dev", [ "clean:javascript", "coffee", "concat:js", "exec:copyJS", "jasmine" ]
-  grunt.registerTask "javascript:dist", [ "clean:javascript", "coffee", "concat:js", "exec:copyJS", "jasmine" ]
+  grunt.registerTask "javascript:dist", [ "clean:javascript", "coffee", "concat:js", "modernizr", "jasmine" ]
 
   # Clean and compile stylesheets
   grunt.registerTask "stylesheets:dev", ["clean:stylesheets", "compass:dev"]
