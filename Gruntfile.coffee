@@ -24,7 +24,7 @@ module.exports = (grunt) ->
         tasks: "javascript"
 
       jsTesting:
-        files: ["src/**/*.js", "specs/**/*.js"]
+        files: "dist/js/*.js"
         tasks: "jasmine"
 
       rootDirectory:
