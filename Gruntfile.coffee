@@ -105,7 +105,7 @@ module.exports = (grunt) ->
       copyJS:
         #this copies non-concatenated js straight to dist/js
         #(concatenated JS is put into place by concat:js
-        command: "mkdir -p dist/js/libs; cp js/no-concat/* dist/js"
+        command: "mkdir -p dist/js; cp js/no-concat/* dist/js"
 
     jasmine:
       src: "dist/**/*.js"
