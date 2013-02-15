@@ -66,7 +66,7 @@ module.exports = (grunt) ->
         dest: "dist/js/<%= pkg.name %>.js"
 
     modernizr:
-      devFile: "js/libs/modernizr-dev.js"
+      devFile: "js/no-concat/modernizr-dev.js"
       outputFile: "dist/js/libs/modernizr.min.js"
       extra:
         shiv: true
@@ -116,7 +116,7 @@ module.exports = (grunt) ->
       options:
         specs: "specs/js/*Spec.js"
         helpers: "specs/js/*Helper.js"
-        vendor: ["js/libs/jquery-1.9.0.min.js", "specs/lib/*.js"]
+        vendor: ["js/libs/jquery-1.9.1.min.js", "specs/lib/*.js"]
 
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
