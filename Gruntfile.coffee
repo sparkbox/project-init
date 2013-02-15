@@ -60,9 +60,8 @@ module.exports = (grunt) ->
           "dist/404.html": "partials/404.html"
 
       js:
-        #i.e. src: ["js/libs/mediaCheck.js", "js/app.js"],
+        #first concatenate libraries, then our own JS
         src: ["js/libs/*", "js/app.js"]
-        #change this to a site specific name i.e. uwg.js or dty.js
         dest: "dist/js/<%= pkg.name %>.js"
 
     modernizr:
@@ -98,14 +97,7 @@ module.exports = (grunt) ->
       javascript: "dist/js/*"
       images: "dist/images/*"
 
-    styleguide:
-      dist:
-        files:
-          "docs/scss": "scss/*.scss"
-
     exec:
-      docco:
-        command: "docco -o docs/js/ js/*.js js/*.coffee"
       copyImages:
         command: "mkdir -p dist/images; cp -R images/ dist/images/"
       copyRootDirectory:
@@ -126,31 +118,29 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-jasmine"
   grunt.loadNpmTasks "grunt-modernizr"
   grunt.loadNpmTasks "grunt-notify"
-  grunt.loadNpmTasks "grunt-styleguide"
   grunt.loadNpmTasks "grunt-exec"
-
-  # Clean and concatenate partials
-  grunt.registerTask "partials", [ "clean:partials", "concat:partials" ]
-
-  # Clean, compile and concatenate JS
-  grunt.registerTask "javascript", [ "clean:javascript", "coffee", "concat:js", "jasmine" ]
-
-  # Clean and compile stylesheets
-  grunt.registerTask "stylesheets:dist", ["clean:stylesheets", "compass:dist"]
-  grunt.registerTask "stylesheets:dev", ["clean:stylesheets", "compass:dev"]
-
-  # Clean and copy images
-  grunt.registerTask "images", [ "clean:images", "exec:copyImages" ]
 
   # Clean dist/ and copy root-directory/
   # NOTE: this has to wipe out everything
   grunt.registerTask "root-canal", [ "clean:all", "exec:copyRootDirectory" ]
 
-  # Generate documentation
-  grunt.registerTask "docs", [ "styleguide", "exec:docco" ]
+  # Clean and concatenate partials
+  grunt.registerTask "partials", [ "clean:partials", "concat:partials" ]
+
+  # Clean, compile and concatenate JS
+  grunt.registerTask "javascript:dev", [ "clean:javascript", "coffee", "concat:js", "jasmine" ]
+  grunt.registerTask "javascript:dist", [ "clean:javascript", "coffee", "concat:js", "jasmine" ]
+
+  # Clean and compile stylesheets
+  grunt.registerTask "stylesheets:dev", ["clean:stylesheets", "compass:dev"]
+  grunt.registerTask "stylesheets:dist", ["clean:stylesheets", "compass:dist"]
+
+  # Clean and copy images
+  grunt.registerTask "images", [ "clean:images", "exec:copyImages" ]
 
   # Production task
-  grunt.registerTask "dist", [ "modernizr", "default" ]
+  grunt.registerTask "dev", [ "root-canal", "partials", "javascript:dev", "stylesheets:dev", "images" ]
+  grunt.registerTask "dist", [ "root-canal", "partials", "javascript:dist", "stylesheets:dist", "images" ]
 
   # Default task
-  grunt.registerTask "default", [ "root-canal", "partials", "javascript", "stylesheets", "images" ]
+  grunt.registerTask "default", "dev"
