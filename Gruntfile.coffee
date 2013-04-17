@@ -26,6 +26,10 @@ module.exports = (grunt) ->
       jsTesting:
         files: "dist/js/*.js"
         tasks: "jasmine"
+        
+      cukes:
+        files: ["features/*.feature", "features/step_definitions/*.coffee"]
+        tasks: ["coffee:cucumber_step_definitions", "cucumberjs"]
 
       rootDirectory:
         files: [ "root-directory/**/*", "root-directory/.*" ]
@@ -43,10 +47,15 @@ module.exports = (grunt) ->
       compile:
         files:
           "js/app.js": "coffee/app.coffee"
-      glob_to_multiple:
+      jasmine_specs:
         files: grunt.file.expandMapping(["specs/*.coffee"], "specs/js/", {
           rename: (destBase, destPath) ->
-            destBase + destPath.replace(/\.coffee$/, ".js").replace(/specs\//, "");
+            destBase + destPath.replace(/\.coffee$/, ".js").replace(/specs\//, "")
+        })
+      cucumber_step_definitions:
+        files: grunt.file.expandMapping(["features/step_definitions/*.coffee"], "features/step_definitions/js/", {
+          rename: (destBase, destPath) ->
+            destBase + destPath.replace(/\.coffee$/, ".js").replace(/features\/step_definitions\//, "")
         })
 
     concat:
@@ -114,12 +123,20 @@ module.exports = (grunt) ->
         helpers: "specs/js/*Helper.js"
         vendor: ["js/concat/jquery-1.9.1.min.js", "specs/lib/*.js"]
 
+    cucumberjs: {
+      files: 'features',
+      options: {
+        steps: "features/step_definitions/js"
+      }
+    }
+
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
   grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-contrib-compass"
   grunt.loadNpmTasks "grunt-contrib-concat"
   grunt.loadNpmTasks "grunt-contrib-jasmine"
+  grunt.loadNpmTasks "grunt-cucumber"
   grunt.loadNpmTasks "grunt-modernizr"
   grunt.loadNpmTasks "grunt-notify"
   grunt.loadNpmTasks "grunt-exec"
@@ -132,8 +149,8 @@ module.exports = (grunt) ->
   grunt.registerTask "partials", [ "clean:html", "concat:partials" ]
 
   # Clean, compile and concatenate JS
-  grunt.registerTask "javascript:dev", [ "clean:javascript", "coffee", "concat:js", "exec:copyJS", "jasmine" ]
-  grunt.registerTask "javascript:dist", [ "clean:javascript", "coffee", "concat:js", "modernizr", "jasmine" ]
+  grunt.registerTask "javascript:dev", [ "clean:javascript", "coffee", "concat:js", "exec:copyJS", "jasmine", "cucumberjs" ]
+  grunt.registerTask "javascript:dist", [ "clean:javascript", "coffee", "concat:js", "modernizr", "jasmine", "cucumberjs" ]
 
   # Clean and compile stylesheets
   grunt.registerTask "stylesheets:dev", ["clean:stylesheets", "compass:dev"]
