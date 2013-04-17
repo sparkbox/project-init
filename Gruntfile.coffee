@@ -29,7 +29,7 @@ module.exports = (grunt) ->
         
       cukes:
         files: ["features/*.feature", "features/step_definitions/*.coffee"]
-        tasks: ["coffee:cucumber_step_definitions", "cucumberjs"]
+        tasks: "cucumberjs"
 
       rootDirectory:
         files: [ "root-directory/**/*", "root-directory/.*" ]
@@ -51,11 +51,6 @@ module.exports = (grunt) ->
         files: grunt.file.expandMapping(["specs/*.coffee"], "specs/js/", {
           rename: (destBase, destPath) ->
             destBase + destPath.replace(/\.coffee$/, ".js").replace(/specs\//, "")
-        })
-      cucumber_step_definitions:
-        files: grunt.file.expandMapping(["features/step_definitions/*.coffee"], "features/step_definitions/js/", {
-          rename: (destBase, destPath) ->
-            destBase + destPath.replace(/\.coffee$/, ".js").replace(/features\/step_definitions\//, "")
         })
 
     concat:
@@ -126,7 +121,7 @@ module.exports = (grunt) ->
     cucumberjs: {
       files: 'features',
       options: {
-        steps: "features/step_definitions/js"
+        steps: "features/step_definitions"
       }
     }
 
