@@ -5,6 +5,9 @@ tmp/*
 dist/*
 .sass-cache/*
 .grunt/*
+js/*
+specs/js/*
+reports/*
 
 # We don't want to check in packages
 node_modules/*
