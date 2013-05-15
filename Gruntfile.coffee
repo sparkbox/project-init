@@ -124,6 +124,11 @@ module.exports = (grunt) ->
         steps: "features/step_definitions"
       }
     }
+    
+    plato:
+      complexity:
+        files:
+          'reports/js-complexity': ['dist/**/*.js']
 
   grunt.loadNpmTasks "grunt-contrib-clean"
   grunt.loadNpmTasks "grunt-contrib-coffee"
@@ -135,6 +140,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-modernizr"
   grunt.loadNpmTasks "grunt-notify"
   grunt.loadNpmTasks "grunt-exec"
+  grunt.loadNpmTasks "grunt-plato"
 
   # Clean dist/ and copy root-directory/
   # NOTE: this has to wipe out everything
@@ -144,7 +150,7 @@ module.exports = (grunt) ->
   grunt.registerTask "partials", [ "clean:html", "concat:partials" ]
 
   # Clean, compile and concatenate JS
-  grunt.registerTask "javascript:dev", [ "clean:javascript", "coffee", "concat:js", "exec:copyJS", "jasmine", "cucumberjs" ]
+  grunt.registerTask "javascript:dev", [ "clean:javascript", "coffee", "concat:js", "exec:copyJS", "jasmine", "cucumberjs", "plato" ]
   grunt.registerTask "javascript:dist", [ "clean:javascript", "coffee", "concat:js", "modernizr", "jasmine", "cucumberjs" ]
 
   # Clean and compile stylesheets
