@@ -13,7 +13,7 @@ module.exports = (grunt) ->
 
       images:
         files: "images/*"
-        tasks: "images"
+        tasks: "copy:main"
 
       partials:
         files: "partials/*"
@@ -26,13 +26,13 @@ module.exports = (grunt) ->
       jsTesting:
         files: "dist/js/*.js"
         tasks: "jasmine"
-        
+
       cukes:
         files: ["features/*.feature", "features/step_definitions/*.coffee"]
         tasks: "cucumberjs"
 
       rootDirectory:
-        files: [ "root-directory/**/*", "root-directory/.*" ]
+        files: [ "public/**/*" ]
         tasks: "default"
 
     compass:
@@ -96,20 +96,15 @@ module.exports = (grunt) ->
       all:
         src: "dist/*"
         dot: true # clean hidden files as well
-      html: "dist/*.html"
-      stylesheets: "dist/css/*"
-      javascript: "dist/js/*"
-      images: "dist/images/*"
 
-    exec:
-      copyImages:
-        command: "mkdir -p dist/images; cp -R images/ dist/images/"
-      copyRootDirectory:
-        command: "cp -Rp root-directory/ dist/"
-      copyJS:
-        #this copies non-concatenated js straight to dist/js
-        #(concatenated JS is put into place by concat:js
-        command: "mkdir -p dist/js; cp js/no-concat/* dist/js"
+    copy:
+      main:
+        files: [
+          expand: true
+          cwd:'public/'
+          src: ["**"]
+          dest: "dist/"
+        ]
 
     jasmine:
       src: "dist/**/*.js"
@@ -124,7 +119,7 @@ module.exports = (grunt) ->
         steps: "features/step_definitions"
       }
     }
-    
+
     plato:
       complexity:
         files:
@@ -141,28 +136,20 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-notify"
   grunt.loadNpmTasks "grunt-exec"
   grunt.loadNpmTasks "grunt-plato"
+  grunt.loadNpmTasks "grunt-contrib-copy"
 
-  # Clean dist/ and copy root-directory/
   # NOTE: this has to wipe out everything
-  grunt.registerTask "root-canal", [ "clean:all", "exec:copyRootDirectory" ]
-
-  # Clean and concatenate html files
-  grunt.registerTask "partials", [ "clean:html", "concat:partials" ]
+  grunt.registerTask "root-canal", [ "clean:all", "copy:main" ]
 
   # Clean, compile and concatenate JS
-  grunt.registerTask "javascript:dev", [ "clean:javascript", "coffee", "concat:js", "exec:copyJS", "jasmine", "cucumberjs", "plato" ]
-  grunt.registerTask "javascript:dist", [ "clean:javascript", "coffee", "concat:js", "modernizr", "jasmine", "cucumberjs" ]
+  grunt.registerTask "javascript:dev", [ "coffee", "concat:js",  "jasmine", "cucumberjs", "plato" ]
 
-  # Clean and compile stylesheets
-  grunt.registerTask "stylesheets:dev", ["clean:stylesheets", "compass:dev"]
-  grunt.registerTask "stylesheets:dist", ["clean:stylesheets", "compass:dist"]
-
-  # Clean and copy images
-  grunt.registerTask "images", [ "clean:images", "exec:copyImages" ]
+  grunt.registerTask "javascript:dist", [ "coffee", "modernizr", "jasmine", "cucumberjs" ]
 
   # Production task
-  grunt.registerTask "dev", [ "root-canal", "partials", "javascript:dev", "stylesheets:dev", "images" ]
-  grunt.registerTask "dist", [ "root-canal", "partials", "javascript:dist", "stylesheets:dist", "images" ]
+  grunt.registerTask "dev", [ "root-canal", "javascript:dev", "compass:dev", "concat:partials" ]
+
+  grunt.registerTask "dist", [ "root-canal", "javascript:dist", "compass:dist", "concat:partials" ]
 
   # Default task
   grunt.registerTask "default", "dev"

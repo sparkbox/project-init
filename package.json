@@ -14,6 +14,7 @@
     "grunt-notify": "~0.1.4",
     "grunt-styleguide": "~0.2.4",
     "grunt-cucumber": "~0.2.1",
-    "grunt-plato": "~0.2.0"
+    "grunt-plato": "~0.2.0",
+    "grunt-contrib-copy": "~0.4.1"
   }
 }
