@@ -13,7 +13,7 @@ module.exports = (grunt) ->
 
       images:
         files: "images/*"
-        tasks: "copy:main"
+        tasks: "optimizeImages"
 
       partials:
         files: "partials/*"
@@ -105,6 +105,13 @@ module.exports = (grunt) ->
           src: ["**"]
           dest: "dist/"
         ]
+      img:
+        files: [
+          expand: true
+          cwd:'images/'
+          src: ["**"]
+          dest: "dist/img"
+        ]
 
     jasmine:
       src: "dist/**/*.js"
@@ -119,6 +126,11 @@ module.exports = (grunt) ->
         steps: "features/step_definitions"
       }
     }
+
+    imageoptim:
+      files: ["images"]
+      options:
+        imageAlpha:true
 
     plato:
       complexity:
@@ -137,9 +149,12 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-exec"
   grunt.loadNpmTasks "grunt-plato"
   grunt.loadNpmTasks "grunt-contrib-copy"
+  grunt.loadNpmTasks "grunt-imageoptim"
 
   # NOTE: this has to wipe out everything
-  grunt.registerTask "root-canal", [ "clean:all", "copy:main" ]
+  grunt.registerTask "root-canal", [ "clean:all", "imageoptim", "copy:main", "copy:img"]
+
+  grunt.registerTask "optimizeImages", ["imageoptim", "copy:img"]
 
   # Clean, compile and concatenate JS
   grunt.registerTask "javascript:dev", [ "coffee", "concat:js",  "jasmine", "cucumberjs", "plato" ]
