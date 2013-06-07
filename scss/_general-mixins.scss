@@ -1,3 +1,15 @@
+@mixin sb-media($query) {
+  @if $no-mq-support{
+    @if $query < $serve-to-nomq-max-width{
+      @content;
+    }
+  } @else {
+    @media ( 'min-width:' + $query ) {
+      @content;
+    }
+  }
+}
+
 @mixin rem( $property, $a:0, $b:$a, $c:$a, $d:$b ) {
   @if ( $property == "font-size" ) {
     // $a is the font size
