@@ -15,6 +15,7 @@
     "grunt-styleguide": "~0.2.4",
     "grunt-cucumber": "~0.2.1",
     "grunt-plato": "~0.2.0",
-    "grunt-contrib-copy": "~0.4.1"
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-imageoptim": "https://github.com/asimpson/grunt-imageoptim/tarball/master"
   }
 }

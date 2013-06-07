@@ -12,15 +12,15 @@ module.exports = (grunt) ->
         tasks: "compass:dev"
 
       images:
-        files: "images/*"
-        tasks: "copy:main"
+        files: "opt-imgs/*"
+        tasks: "optimizeImages"
 
       partials:
         files: "partials/*"
         tasks: "partials"
 
       javascript:
-        files: ["coffee/*", "js/libs/*.js"]
+        files: ["coffee/*", "js/*.js"]
         tasks: "javascript:dev"
 
       jsTesting:
@@ -31,7 +31,7 @@ module.exports = (grunt) ->
         files: ["features/*.feature", "features/step_definitions/*.coffee"]
         tasks: "cucumberjs"
 
-      rootDirectory:
+      publicDirectory:
         files: [ "public/**/*" ]
         tasks: "default"
 
@@ -60,20 +60,18 @@ module.exports = (grunt) ->
         files:
           # destination as key, sources as value
           "dist/index.html": ["partials/_header.html", "partials/_home-page.html", "partials/_footer.html"]
-          "dist/about.html": ["partials/_header.html", "partials/_about-page.html", "partials/_footer.html"]
           "dist/404.html": "partials/404.html"
       js:
-        #first concatenate libraries, then our own JS
-        src: ["js/concat/*", "js/app.js"]
+        src: ["js/libs/*", "js/app.js"]
         #put it in dist/
         dest: "dist/js/<%= pkg.name %>.js"
 
     modernizr:
-      devFile: "js/no-concat/modernizr.js"
+      devFile: "dist/js/modernizr.js"
       outputFile: "dist/js/modernizr.js"
       extra:
         shiv: true
-        printshiv: false
+        printshiv: true
         load: true
         mq: false
         cssclasses: true
@@ -105,13 +103,20 @@ module.exports = (grunt) ->
           src: ["**"]
           dest: "dist/"
         ]
+      img:
+        files: [
+          expand: true
+          cwd:'opt-imgs/'
+          src: ["**"]
+          dest: "dist/img"
+        ]
 
     jasmine:
-      src: "dist/**/*.js"
+      src: "dist/js/*.js"
       options:
         specs: "specs/js/*Spec.js"
         helpers: "specs/js/*Helper.js"
-        vendor: ["js/concat/jquery-1.9.1.min.js", "specs/lib/*.js"]
+        vendor: ["public/js/jquery-1.9.1.min.js", "specs/lib/*.js"]
 
     cucumberjs: {
       files: 'features',
@@ -119,6 +124,11 @@ module.exports = (grunt) ->
         steps: "features/step_definitions"
       }
     }
+
+    imageoptim:
+      files: ["opt-imgs"]
+      options:
+        imageAlpha:true
 
     plato:
       complexity:
@@ -137,14 +147,17 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-exec"
   grunt.loadNpmTasks "grunt-plato"
   grunt.loadNpmTasks "grunt-contrib-copy"
+  grunt.loadNpmTasks "grunt-imageoptim"
 
   # NOTE: this has to wipe out everything
-  grunt.registerTask "root-canal", [ "clean:all", "copy:main" ]
+  grunt.registerTask "root-canal", [ "clean:all", "copy:main", "copy:img"]
+
+  grunt.registerTask "optimizeImages", ["imageoptim", "copy:img"]
 
   # Clean, compile and concatenate JS
   grunt.registerTask "javascript:dev", [ "coffee", "concat:js",  "jasmine", "cucumberjs", "plato" ]
 
-  grunt.registerTask "javascript:dist", [ "coffee", "modernizr", "jasmine", "cucumberjs" ]
+  grunt.registerTask "javascript:dist", [ "coffee", "concat:js", "modernizr", "jasmine", "cucumberjs" ]
 
   # Production task
   grunt.registerTask "dev", [ "root-canal", "javascript:dev", "compass:dev", "concat:partials" ]
