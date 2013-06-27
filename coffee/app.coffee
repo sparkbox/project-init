@@ -7,12 +7,4 @@ window.APP =
   common:
     init: ->
 
-    finalize: ->
-
-
-  bodyId_or_className:
-    init: ->
-
-    finalize: ->
-
-$(document).ready UTIL.loadEvents
+APP.common.init()
