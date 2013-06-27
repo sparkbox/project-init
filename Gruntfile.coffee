@@ -10,8 +10,11 @@ module.exports = (grunt) ->
       stylesheets:
         files: "scss/**/*"
         tasks: "compass:dev"
+
+      livereload:
+        files: "dist/css/*"
         options:
-          livereload:true
+          livereload: true
 
       images:
         files: "opt-imgs/*"
