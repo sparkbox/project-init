@@ -8,8 +8,10 @@ module.exports = (grunt) ->
     watch:
 
       stylesheets:
-        files: "scss/*"
+        files: "scss/**/*"
         tasks: "compass:dev"
+        options:
+          livereload:true
 
       images:
         files: "opt-imgs/*"
@@ -17,7 +19,9 @@ module.exports = (grunt) ->
 
       partials:
         files: "partials/*"
-        tasks: "partials"
+        tasks: "concat:partials"
+        options:
+          livereload:true
 
       javascript:
         files: ["coffee/*", "js/*.js"]

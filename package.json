@@ -8,7 +8,7 @@
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-compass": "~0.1.3",
     "grunt-modernizr": "~0.2.0",
-    "grunt-contrib-watch": "~0.3.1",
+    "grunt-contrib-watch": "~0.4",
     "grunt-contrib-concat": "~0.1.3",
     "grunt-contrib-jasmine": "~0.4.1",
     "grunt-notify": "~0.1.4",
@@ -16,6 +16,6 @@
     "grunt-cucumber": "~0.2.1",
     "grunt-plato": "~0.2.0",
     "grunt-contrib-copy": "~0.4.1",
-    "grunt-imageoptim": "https://github.com/asimpson/grunt-imageoptim/tarball/master"
+    "grunt-imageoptim": "~1.2.6"
   }
 }
