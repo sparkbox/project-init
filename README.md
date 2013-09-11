@@ -11,13 +11,11 @@ Prerequisites:
 
 To get started:
 
-1. Agree to the .rvmrc request
-2. Change the Project name in .rvmrc, close and reopen the terminal window.
-3. Agree to the .rvmrc request
-4. Type ```npm install``` and ```bundle``` in the root of the project directory.
-5. Change the Project Name in ```package.json```
-6. Run ```grunt watch```
-7. ![Science](https://gimmebar-assets.s3.amazonaws.com/4fafbdce48c48.jpg)
+1. Change the Project name in .ruby-gemset, close and reopen the terminal window.
+2. Type ```npm install``` and ```bundle``` in the root of the project directory.
+3. Change the Project Name in ```package.json```
+4. Run ```grunt watch```
+5. ![Science](https://gimmebar-assets.s3.amazonaws.com/4fafbdce48c48.jpg)
 
 **Your project will compile to ```dist/```**
 
