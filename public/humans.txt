@@ -37,6 +37,11 @@
   Twitter: SimpsonPatrick
   Location: Dayton, OH
 
+  Software Engineer: Michael Yockey
+  Site: http://seesparkbox.com
+  Twitter: myockey
+  Location: Dayton, OH
+
   Web Developer: Adam Simpson
   Site: http://seesparkbox.com
   Twitter: a_simpson
