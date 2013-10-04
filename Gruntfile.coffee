@@ -5,6 +5,12 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON("package.json")
 
+    connect:
+      server:
+        options:
+          port: 5000
+          base: "dist/"
+
     watch:
 
       stylesheets:
@@ -21,10 +27,10 @@ module.exports = (grunt) ->
         tasks: "optimizeImages"
 
       partials:
-        files: "partials/*"
-        tasks: "concat:partials"
+        files: ["partials/*", "data/*"]
+        tasks: ["assemble"]
         options:
-          livereload:true
+          livereload: true
 
       javascript:
         files: ["coffee/*", "js/*.js"]
@@ -60,14 +66,16 @@ module.exports = (grunt) ->
             destBase + destPath.replace(/\.coffee$/, ".js").replace(/specs\//, "")
         })
 
+    assemble:
+      options:
+        partials: "partials/*"
+        pkg: '<%= pkg %>'
+        data: "data/*.yml"
+      index:
+        src: "partials/index.hbs"
+        dest: "dist/index.html"
+
     concat:
-      partials:
-        options:
-          process: true
-        files:
-          # destination as key, sources as value
-          "dist/index.html": ["partials/_header.html", "partials/_home-page.html", "partials/_footer.html"]
-          "dist/404.html": "partials/404.html"
       js:
         src: ["js/libs/*", "js/app.js"]
         #put it in dist/
@@ -155,6 +163,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-plato"
   grunt.loadNpmTasks "grunt-contrib-copy"
   grunt.loadNpmTasks "grunt-imageoptim"
+  grunt.loadNpmTasks "grunt-contrib-connect"
+  grunt.loadNpmTasks "assemble"
 
   # NOTE: this has to wipe out everything
   grunt.registerTask "root-canal", [ "clean:all", "copy:main", "copy:img"]
@@ -167,9 +177,9 @@ module.exports = (grunt) ->
   grunt.registerTask "javascript:dist", [ "coffee", "concat:js", "modernizr", "jasmine", "cucumberjs" ]
 
   # Production task
-  grunt.registerTask "dev", [ "root-canal", "javascript:dev", "compass:dev", "concat:partials" ]
+  grunt.registerTask "dev", [ "root-canal", "javascript:dev", "compass:dev", "assemble", "connect", "watch"]
 
-  grunt.registerTask "dist", [ "root-canal", "javascript:dist", "compass:dist", "concat:partials" ]
+  grunt.registerTask "dist", [ "root-canal", "javascript:dist", "compass:dist", "assemble" ]
 
   # Default task
   grunt.registerTask "default", "dev"
