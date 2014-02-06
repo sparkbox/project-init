@@ -1,6 +1,7 @@
 #global module:false
 module.exports = (grunt) ->
 
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
   # Project configuration.
   grunt.initConfig
     pkg: grunt.file.readJSON("package.json")
@@ -150,20 +151,7 @@ module.exports = (grunt) ->
         files:
           'reports/js-complexity': ['dist/**/*.js']
 
-  grunt.loadNpmTasks "grunt-contrib-clean"
-  grunt.loadNpmTasks "grunt-contrib-coffee"
-  grunt.loadNpmTasks "grunt-contrib-watch"
-  grunt.loadNpmTasks "grunt-contrib-compass"
-  grunt.loadNpmTasks "grunt-contrib-concat"
-  grunt.loadNpmTasks "grunt-contrib-jasmine"
-  grunt.loadNpmTasks "grunt-cucumber"
-  grunt.loadNpmTasks "grunt-modernizr"
-  grunt.loadNpmTasks "grunt-notify"
-  grunt.loadNpmTasks "grunt-exec"
-  grunt.loadNpmTasks "grunt-plato"
-  grunt.loadNpmTasks "grunt-contrib-copy"
-  grunt.loadNpmTasks "grunt-imageoptim"
-  grunt.loadNpmTasks "grunt-contrib-connect"
+  #Load NPM tasks not prepended with "grunt-"
   grunt.loadNpmTasks "assemble"
 
   # NOTE: this has to wipe out everything
